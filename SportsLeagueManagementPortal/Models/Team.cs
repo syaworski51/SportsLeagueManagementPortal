@@ -14,5 +14,11 @@ namespace SportsLeagueManagementPortal.Models
 
         [Display(Name = "Logo Path")]
         public string? LogoPath { get; set; }
+
+        [ForeignKey(nameof(Arena))]
+        public Guid ArenaId { get; set; }
+
+        [Display(Name = "Arena")]
+        public Arena Arena { get; set; }
     }
 }

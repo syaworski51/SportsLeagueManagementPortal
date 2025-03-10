@@ -50,16 +50,22 @@ namespace SportsLeagueManagementPortal.Models
         ///     
         ///     Active ------- This player is currently playing for a team.
         ///     Free agent --- This player is currently a free agent.
-        ///     Retired ------ This player has decided to retire from this sport.
+        ///     Retired ------ This player has decided to retire.
         /// </summary>
         [Display(Name = "Status")]
         public string Status { get; set; }
 
         /// <summary>
+        ///     The ID of the position this player plays.
+        /// </summary>
+        [ForeignKey(nameof(Position))]
+        public Guid PositionId { get; set; }
+        
+        /// <summary>
         ///     The position this player plays.
         /// </summary>
         [Display(Name = "Position")]
-        public string Position { get; set; }
+        public Position Position { get; set; }
 
         /// <summary>
         ///     This player's date of birth.
@@ -75,12 +81,17 @@ namespace SportsLeagueManagementPortal.Models
         {
             get
             {
-                var today = DateTime.Now.Date;
-                var age = today.Year - DateOfBirth.Year;
+                // Get today's date
+                DateTime today = DateTime.Now.Date;
 
+                // Calculate the player's age as the difference in years between this year and their birth year, for now
+                int age = today.Year - DateOfBirth.Year;
+
+                // If the player's birthday has not occurred yet this year, subtract 1 from their age
                 if (DateOfBirth.Date > today.AddYears(-age))
                     age--;
 
+                // Return the player's age
                 return age;
             }
         }
@@ -110,13 +121,13 @@ namespace SportsLeagueManagementPortal.Models
         public string Birthplace => $"{City}, {State}, {Country}";
 
         /// <summary>
-        ///     This player's height in feet.
+        ///     The feet portion of this player's height.
         /// </summary>
         [Display(Name = "ft.")]
         public int Feet { get; set; }
 
         /// <summary>
-        ///     This player's height in inches.
+        ///     The inches portion of this player's height.
         /// </summary>
         [Display(Name = "in.")]
         public int Inches { get; set; }
@@ -134,9 +145,9 @@ namespace SportsLeagueManagementPortal.Models
         public int Weight { get; set; }
 
         /// <summary>
-        ///     This player's dominant side.
+        ///     The hand that the player shoots or catches with.
         /// </summary>
         [Display(Name = "Dominant Side")]
-        public string DominantSide { get; set; }
+        public string ShootingOrCatchingSide { get; set; }
     }
 }
